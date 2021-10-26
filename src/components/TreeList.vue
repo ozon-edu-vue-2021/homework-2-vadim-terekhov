@@ -2,7 +2,7 @@
   <div>
     <p class="tree-list-item"
       :style="[{'margin-left': `${depth * 20}px`}]"
-      @click="toogleOpenClose"
+      @click.stop="toogleOpenClose"
       tabindex="0"
       @keyup.enter="toogleOpenClose"
     >
@@ -63,7 +63,7 @@ export default {
       if (!this.hasChildren){
         this.$emit('showChild',{target: event.target, rm: true});
       }else{
-        this.$emit('showChild',{target: null, rm: false});
+        this.$emit('showChild',{target: event.target, rm: false});
       }
     },
     setClass(item){
@@ -72,7 +72,7 @@ export default {
       }else if (item.type === 'file'){
         return 'file not-directory';
       }else if (item.type === 'link'){
-        return 'link ,';
+        return 'link';
       }
     },
   }

@@ -38,9 +38,10 @@ export default {
       const {target, rm} = obj;
       if (rm === false){
         this.pathToChild = '...';
+        this.pathToChild = this.getPath(target,'tree-list');
       }else{
         target.classList.add('selected');
-        this.pathToChild = this.getPathTwo(target,'tree-list');
+        this.pathToChild = this.getPath(target,'tree-list');
       }
     },
     removeSelected(){
@@ -49,7 +50,7 @@ export default {
         node.classList.remove('selected');
       })
     },
-    getPathTwo(current, elClass){
+    getPath(current, elClass){
       let path = '';
       const arr = [current.textContent];
       let parent = current.parentElement;
@@ -60,6 +61,10 @@ export default {
         parent = parent.parentElement;
       }
       arr.reverse();
+      if (current.className === 'directory'){
+        arr.splice(-2);
+      }
+      
       path = arr.join(' | ');
       return path;
     },

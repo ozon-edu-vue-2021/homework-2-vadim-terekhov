@@ -18,27 +18,6 @@
 </template>
 
 <script>
-document.addEventListener("DOMContentLoaded", function(){
-  //const item = document.querySelector('.tree-list');
-  //item.children[0].children[0].tabIndex = -1;
-  //item.children[0].children[0].focus();
-  //console.log(item.children[0]);
-
-  /* document.body.addEventListener('keyup', function(e){
-    if (e.code === 'ArrowDown'){
-      e.preventDefault();
-      e.target.focus();
-      console.log('down');
-      console.log(e.target.textContent);
-    }else if (e.code === 'ArrowUp'){
-      e.preventDefault();
-      e.target.focus();
-      console.log('up');
-      console.log(e.target.textContent);
-    }
-  }) */
-});
-
 import TreeList from './components/TreeList.vue';
 import data from './assets/node_modules.json';
 

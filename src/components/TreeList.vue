@@ -3,6 +3,8 @@
     <p class="tree-list-item"
       :style="[{'margin-left': `${depth * 20}px`}]"
       @click="toogleOpenClose"
+      tabindex="0"
+      @keyup.enter="toogleOpenClose"
     >
       <span 
         class="type"
@@ -72,7 +74,7 @@ export default {
       }else if (item.type === 'link'){
         return 'link ,';
       }
-    }
+    },
   }
 }
 </script>

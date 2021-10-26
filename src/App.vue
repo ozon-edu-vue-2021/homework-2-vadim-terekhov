@@ -1,28 +1,118 @@
 <template>
   <div id="app">
-    <img alt="Vue logo" src="./assets/logo.png">
-    <HelloWorld msg="Welcome to Your Vue.js App"/>
+    <header class="header">
+      <h1>Home Work #2</h1>
+      <h2>Tree in browser:</h2>
+      <p class="pathInfo">
+        <span class="pathInfo-prefix">Path to: </span>{{ pathToChild }}
+      </p>
+    </header>
+    <div class="tree-list">
+      <TreeList 
+        :item="data"
+        @showChild="showInfo"
+      />
+    </div>
+
   </div>
 </template>
 
 <script>
-import HelloWorld from './components/HelloWorld.vue'
+import TreeList from './components/TreeList.vue';
+import data from './assets/node_modules.json';
 
 export default {
   name: 'App',
   components: {
-    HelloWorld
-  }
+    TreeList
+  },
+  data(){
+    return{
+      data,
+      pathToChild: '...',
+    }
+  },
+  methods: {
+    showInfo(obj){
+      this.removeSelected();
+      const {item, target, rm} = obj;
+      if (rm === false){
+        this.pathToChild = '...';
+      }else{
+        target.classList.add('selected');
+        this.pathToChild = this.getPath(this.data,item.name);
+      }
+    },
+    removeSelected(){
+      const collection = document.querySelectorAll('.not-directory');
+      collection.forEach( (node) => {
+        node.classList.remove('selected');
+      })
+    },
+    getPath(data,findItem){
+      let path = '';
+      let flag = false;
+      function inner(data,findItem){
+        if (data.type === 'directory'){
+          path += `${data.name} | `;
+          if (data.contents?.length !== undefined){
+            for (let i of data.contents){
+              if (flag){
+                return;
+              }
+              inner(i,findItem);
+            }
+          }
+        }else{
+          if (data.name === findItem){
+            path += findItem;
+            flag = true;
+            return;
+          }
+        }
+      }
+      inner(data,findItem);
+      return path;
+    },
+  },
 }
 </script>
 
 <style>
+html, body{
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+}
+h1,h2,p{
+  margin: 0;
+}
 #app {
   font-family: Avenir, Helvetica, Arial, sans-serif;
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
   text-align: center;
   color: #2c3e50;
-  margin-top: 60px;
+}
+.tree-list{
+    text-align: left;
+  }
+.pathInfo{
+  border: 2px darkolivegreen dashed;
+  padding: 5px;
+  text-align: left;
+  margin-bottom: 5px;
+}
+.pathInfo-prefix{
+  font-weight: bold;
+}
+.selected{
+  border: 2px olive solid!important;
+}
+.header{
+  padding: 7px 5px;
+  position: sticky;
+  top: 0;
+  background-color: bisque;
 }
 </style>

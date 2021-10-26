@@ -59,9 +59,9 @@ export default {
     toogleOpenClose(event){
       this.opened = !this.opened;
       if (!this.hasChildren){
-        this.$emit('showChild',{item: this.item, target: event.target,rm: true});
+        this.$emit('showChild',{target: event.target, rm: true});
       }else{
-        this.$emit('showChild',{item: null, target: null,rm: false});
+        this.$emit('showChild',{target: null, rm: false});
       }
     },
     setClass(item){

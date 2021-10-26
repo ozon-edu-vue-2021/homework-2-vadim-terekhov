@@ -35,12 +35,12 @@ export default {
   methods: {
     showInfo(obj){
       this.removeSelected();
-      const {item, target, rm} = obj;
+      const {target, rm} = obj;
       if (rm === false){
         this.pathToChild = '...';
       }else{
         target.classList.add('selected');
-        this.pathToChild = this.getPath(this.data,item.name);
+        this.pathToChild = this.getPathTwo(target,'tree-list');
       }
     },
     removeSelected(){
@@ -49,29 +49,18 @@ export default {
         node.classList.remove('selected');
       })
     },
-    getPath(data,findItem){
+    getPathTwo(current, elClass){
       let path = '';
-      let flag = false;
-      function inner(data,findItem){
-        if (data.type === 'directory'){
-          path += `${data.name} | `;
-          if (data.contents?.length !== undefined){
-            for (let i of data.contents){
-              if (flag){
-                return;
-              }
-              inner(i,findItem);
-            }
-          }
-        }else{
-          if (data.name === findItem){
-            path += findItem;
-            flag = true;
-            return;
-          }
+      const arr = [current.textContent];
+      let parent = current.parentElement;
+      while(parent.className !== elClass){
+        if (parent.querySelector('.directory')?.textContent){
+          arr.push(parent.querySelector('.directory')?.textContent);
         }
+        parent = parent.parentElement;
       }
-      inner(data,findItem);
+      arr.reverse();
+      path = arr.join(' | ');
       return path;
     },
   },
